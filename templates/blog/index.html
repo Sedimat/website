@@ -1,0 +1,55 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+
+<h1 class="page-header">
+    Page Heading
+    <small>Secondary Text</small>
+</h1>
+
+{% for post in posts %}
+
+<!-- First Blog Post -->
+<h2>
+    <a href="{% url 'post' id=post.title %}">{{post.title}}</a>
+</h2>
+    <p>Тег</p>
+    {% for t in post.tegs.all %}
+
+    <span>{{ t.name }}</span>
+
+    {% endfor %}
+
+<p class="lead">
+    by <a href="index">{{ post.user}}</a>
+</p>
+<p><span class="glyphicon glyphicon-time"></span> Posted on {{ post.published_date }}</p>
+<hr>
+<img class="img-responsive"
+     src="{{ post.img.url }}"
+     alt="">
+<img class="img-responsive"
+     src="{{ post.poster }}"
+     alt="">
+<hr>
+<p>{{ post.content|truncatewords:3 }}</p>
+<a class="btn btn-primary" href="{% url 'post' id=post.title %}">Читати <span class="glyphicon glyphicon-chevron-right"></span></a>
+
+<hr>
+
+{% endfor %}
+
+<!-- Second Blog Post -->
+
+
+<!-- Pager -->
+<ul class="pager">
+    <li class="previous">
+        <a href="#">&larr; Older</a>
+    </li>
+    <li class="next">
+        <a href="#">Newer &rarr;</a>
+    </li>
+</ul>
+
+{% endblock %}

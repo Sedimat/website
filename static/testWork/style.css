@@ -1,0 +1,13 @@
+body{
+    background-color: yellow;
+    text-align: left;
+}
+a {
+    font-size: 20px;
+    display: block;
+    margin-bottom: 10px;
+}
+li {
+    font-size: 30px;
+
+}

@@ -1,0 +1,18 @@
+{% extends "testWork/base.html" %}
+
+{% block content %}
+
+<h2>{% now "d/m/y h:i:s" %}</h2>
+<h2>{{ number }}</h2>
+<a href="contact">Контакти</a>
+<a href="info">Інформаці</a>
+<a href="hw1">Задача 1</a>
+
+
+<ul>
+    {% for item in list_data%}
+    <li>{{ item|title }}</li>
+    {% endfor %}
+
+</ul>
+{% endblock %}

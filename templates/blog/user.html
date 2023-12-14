@@ -1,0 +1,124 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+
+
+{% if user.is_authenticated %}
+
+<h3>{{ user.username }}</h3>
+{% if not status %}
+
+<img class="media-object" src="{{ info.avatar2.url }}" width="150">
+
+<form action="{% url 'edit_user' user.id %}" method="post">
+    {% csrf_token %}
+    <table class="table">
+    <tr>
+        <th scope="col"><input type="url" class="form-control" name="url" placeholder="Добавте посилання на аватарку"></th>
+        <th scope="col"><button type="submit" class="btn btn-danger">Змінити</button></th>
+    </tr>
+    </table>
+</form>
+{% endif %}
+
+<h3>Емейл: {{ user.email }}</h3>
+
+{% if not status %}
+
+<form action="{% url 'edit_user' user.id %}" method="post">
+    {% csrf_token %}
+    <table class="table">
+    <tr>
+        <th scope="col"><input type="email" class="form-control" name="email" value="{{ user.email }}"></th>
+        <th scope="col"><button type="submit" class="btn btn-danger">Змінити</button></th>
+    </tr>
+    </table>
+</form>
+
+{% endif %}
+
+{% if not status %}
+
+<h3>Опис: {{ info.description }}</h3>
+<form action="{% url 'edit_user' user.id %}" method="post">
+    {% csrf_token %}
+    <table class="table">
+    <tr>
+        <th scope="col"><input type="text" class="form-control" name="description" value="{{ info.description }}"></th>
+        <th scope="col"><button type="submit" class="btn btn-danger">Змінити</button></th>
+    </tr>
+    </table>
+</form>
+{% endif %}
+
+<h3>{{ error }}</h3>
+
+
+{% if status %}
+<form action="{% url 'user' %}" method="POST">
+    {% csrf_token %}
+
+    <label for="avatar" class="form-label">Аватарка</label>
+    <input type="text" class="form-control" name="avatar" id="avatar" placeholder="Аватарка">
+
+    <label for="description" class="form-label">Додатковий опис</label>
+    <input type="text" class="form-control" name="description" id="description" placeholder="Додатковий опис">
+
+    <button type="submit" class="btn btn-default">Додати</button>
+</form>
+{% endif %}
+
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Заголовок</th>
+        <th scope="col">Опис</th>
+        <th scope="col">Дата</th>
+        <th scope="col">Видалення</th>
+    </tr>
+    </thead>
+    {% for post in posts %}
+    <tbody>
+    <tr>
+        <th scope="row">{{post.id}}</th>
+        <td>{{post.title}}</td>
+        <td>{{ post.content|truncatewords:5 }}</td>
+        <td>{{ post.published_date }}</td>
+        <td>
+            <form action="{% url 'delete_post' post.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Видалити</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+    {% endfor %}
+</table>
+
+
+{% else %}
+
+<h3> {{ a }}</h3>
+<form action="{% url 'user' %}" method="POST">
+    {% csrf_token %}
+
+    <label for="username" class="form-label">Ваш нікнейм</label>
+    <input type="text" class="form-control" name="username" id="username" placeholder="Ваш нікнейм">
+
+    <label for="email" class="form-label">Емейл</label>
+    <input type="email" class="form-control" name="email" id="email" placeholder="Електрона пошта">
+
+    <label for="password1" class="form-label">Пароль</label>
+    <input type="password" class="form-control" name="password1" id="password1" placeholder="Пароль">
+
+    <label for="password2" class="form-label">Підтвердження</label>
+    <input type="password" class="form-control" name="password2" id="password2" placeholder="Підтвердження">
+
+    <button type="submit" class="btn btn-default">Зареєструватись</button>
+</form>
+
+{% endif %}
+
+{% endblock %}
